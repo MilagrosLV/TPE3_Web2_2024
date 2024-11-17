@@ -1,7 +1,7 @@
 <?php
-    
+    //print_r($_SERVER); //Para debug
     require_once 'libs/router.php';
-    require_once 'api/controllers/product_api_controller.php';
+    require_once 'app_api/controllers/product_api_controller.php';
    
     $router = new Router();
 

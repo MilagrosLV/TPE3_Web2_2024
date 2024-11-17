@@ -4,36 +4,37 @@ require_once './app_api/views/json_view.php';
 
 class productApiController {
     private $ProductModel;
-    private $view;
+    private $JSONView;
 
     public function __construct() {
         $this->ProductModel = new ProductModel();
-        $this->view = new JSONView();
+        $this->JSONView = new JSONView();
     }
 
     // /api/productos
-    public function getAll($req) { 
+    public function getAll($request) { 
 
-        $filtrarOfertas = null;
-        if(isset($req->query->ofertadas)) {
-            $filtrarOfertas = $req->query->ofertadas;
+        /*$filtrarOfertas = null;
+        if(isset($request->query->ofertadas)) {
+            $filtrarOfertas = $request->query->ofertadas;
         }
         $orderBy = false;
-        if(isset($req->query->orderBy)){
-            $orderBy = $req->query->orderBy;
-        }
+        if(isset($request->query->orderBy)){
+            $orderBy = $request->query->orderBy;
+        }*/
         
-        $products = $this->ProductModel->getProducts($filtrarOfertas, $orderBy);
-        return $this->view->response($products);
+        $products = $this->ProductModel->getProducts();
+        return $this->JSONView->response($products);
     }
 
-    public function get($req, $res) {
-        $id = $req->params->id;
+    // ./api/productos/:id
+    public function get($request) {
+        $id = $request->params->id;
         $product = $this->ProductModel->getProduct($id);
         if(!$product) {
-            return $this->view->response("El producto con el id=$id no existe", 404);
+            return $this->JSONView->response("El producto con el id=$id no existe", 404);
         }
-        return $this->view->response($product);
+        return $this->JSONView->response($product);
     }
 
 
